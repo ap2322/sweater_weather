@@ -14,7 +14,21 @@ describe 'Antipode weather lookup api' do
     expect(parsed_response[:attributes][:forecast]).to have_key :summary
     expect(parsed_response[:attributes][:forecast]).to have_key :current_temperature
     expect(parsed_response[:attributes]).to have_key :search_location
+  end
 
+  it 'returns the city name and current weather of a different city', :vcr do
+    city = 'Bogota, Colombia'
+    get "/api/v1/antipode?location=#{city}"
+
+    expect(response).to be_successful
+
+    parsed_response = JSON.parse(response.body, symbolize_names: true)
+
+    expect(parsed_response[:attributes]).to have_key :location_name
+    expect(parsed_response[:attributes]).to have_key :forecast
+    expect(parsed_response[:attributes][:forecast]).to have_key :summary
+    expect(parsed_response[:attributes][:forecast]).to have_key :current_temperature
+    expect(parsed_response[:attributes]).to have_key :search_location
   end
 end
 
