@@ -10,7 +10,7 @@ class DarkskyService
 
   def evening_forecast
     now = Time.now
-    evening_time = Time.new(now.year, now.month, now.day, 20).to_i.to_s
+    evening_time = Time.new(now.year, now.month, now.day, 22).to_i.to_s
     response = conn.get("#{lat_long},#{evening_time}")
     JSON.parse(response.body, symbolize_names: true)
   end
