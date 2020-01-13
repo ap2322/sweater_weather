@@ -17,6 +17,14 @@ class GoogleGeoService
     {location: "#{city}, #{state}", country: country}
   end
 
+  def find_place(lat_long)
+    resp = conn.get('geocode/json') do |req|
+      req.params['latlng'] = lat_long
+    end
+    json_resp = JSON.parse(resp.body, symbolize_names: true)
+    json_resp[:results][-3][:formatted_address]
+  end
+
   private
   attr_reader :location
 
