@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 describe 'Antipode weather lookup api' do
-  it 'returns the city name and current weather of that city' do
+  it 'returns the city name and current weather of that city', :vcr do
+    WebMock.enable_net_connect!
+    VCR.eject_cassette
+    VCR.turn_off!(ignore_cassettes: true)
     city = 'Hong Kong'
     get "/api/v1/antipode?location=#{city}"
 
