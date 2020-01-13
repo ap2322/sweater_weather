@@ -4,9 +4,9 @@ class GoogleGeoService
     @response ||= response
   end
 
-  def coordnates
+  def coordinates
     json_response = JSON.parse(@response.body, symbolize_names: true)
-    lat_long = json_response[:results][0][:geometry][:location].values.join(',')
+    json_response[:results][0][:geometry][:location].values.join(',')
   end
 
   def city_state_country
@@ -15,6 +15,15 @@ class GoogleGeoService
     state = json_response[:results][0][:address_components][2][:short_name]
     country = json_response[:results][0][:address_components][3][:long_name]
     {location: "#{city}, #{state}", country: country}
+  end
+
+  def find_place(lat_long)
+    resp = conn.get('geocode/json') do |req|
+      req.params['latlng'] = lat_long
+    end
+    json_resp = JSON.parse(resp.body, symbolize_names: true)
+    return json_resp[:results][0][:formatted_address] unless json_resp[:results].empty?
+    "Sorry, no places found for coordinates #{lat_long}"
   end
 
   private

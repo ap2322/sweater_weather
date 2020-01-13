@@ -1,3 +1,5 @@
+require 'simplecov'
+SimpleCov.start
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
@@ -18,6 +20,7 @@ VCR.configure do |config|
   config.configure_rspec_metadata!
   config.filter_sensitive_data("<GOOGLE_GEO_API_KEY>") { ENV['GOOGLE_GEO_API_KEY'] }
   config.filter_sensitive_data("<DARKSKY_API_KEY>") { ENV['DARKSKY_API_KEY'] }
+  config.filter_sensitive_data("<AMYPODE_API_KEY>") { ENV['AMYPODE_API_KEY'] }
 end
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
