@@ -31,5 +31,5 @@ class AntipodeFacade
   end
 
   private
-  attr_reader :location_search, :search_coordinates, :antipode_coordinates
+  attr_reader :search_coordinates, :antipode_coordinates
 end
