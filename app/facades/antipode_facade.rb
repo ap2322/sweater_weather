@@ -26,18 +26,8 @@ class AntipodeFacade
   end
 
   def get_antipode_forecast
-    full_forecast = {}
-    if antipode_location_name == "Sorry, no places found for those coordinates"
-      return full_forecast = {
-        currently: {
-          summary: 'No location for forecast',
-          temperature: 'No location for forecast',
-        }
-      }
-    else
-      darksky_service = DarkskyService.new(antipode_coordinates)
-      darksky_service.forecast
-    end
+    darksky_service = DarkskyService.new(antipode_coordinates)
+    darksky_service.forecast
   end
 
   private
