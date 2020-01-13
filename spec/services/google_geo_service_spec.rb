@@ -14,4 +14,14 @@ describe GoogleGeoService do
 
     expect(location_info).to eq({location: 'Denver, CO', country: 'United States'})
   end
+
+  it 'returns the location name of searched lat_long', :vcr do
+    service = GoogleGeoService.new('Hong Kong')
+    antipode_lat_long = "-22.3193039,-65.8306389"
+
+    antipode_location = service.find_place(antipode_lat_long)
+
+    expect(antipode_location).to eq("Yavi Department, Jujuy, Argentina")
+
+  end
 end
