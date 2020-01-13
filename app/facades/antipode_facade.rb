@@ -6,7 +6,7 @@ class AntipodeFacade
   def initialize(location_search)
     @location_search = location_search
     @search_coordinates = get_coordinates
-    @antipode_coordinates = antipode_lat_long
+    @antipode_coordinates = get_antipode_lat_long
     @antipode_location_name = get_antipode_location_name
     @antipode_forecast = get_antipode_forecast
   end
@@ -16,7 +16,7 @@ class AntipodeFacade
     @google_service.coordinates
   end
 
-  def antipode_lat_long
+  def get_antipode_lat_long
     AmypodeService.antipode(search_coordinates)
   end
 
