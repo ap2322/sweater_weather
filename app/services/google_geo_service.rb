@@ -22,7 +22,8 @@ class GoogleGeoService
       req.params['latlng'] = lat_long
     end
     json_resp = JSON.parse(resp.body, symbolize_names: true)
-    json_resp[:results][0][:formatted_address]
+    return json_resp[:results][0][:formatted_address] unless json_resp[:results].empty?
+    "Sorry, no places found for those coordinates"
   end
 
   private
