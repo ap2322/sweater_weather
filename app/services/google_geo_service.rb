@@ -4,7 +4,7 @@ class GoogleGeoService
     @response ||= response
   end
 
-  def coordnates
+  def coordinates
     json_response = JSON.parse(@response.body, symbolize_names: true)
     lat_long = json_response[:results][0][:geometry][:location].values.join(',')
   end

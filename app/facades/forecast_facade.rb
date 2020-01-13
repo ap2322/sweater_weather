@@ -87,7 +87,7 @@ class ForecastFacade
 
   def google_lat_long
     @google_service ||= GoogleGeoService.new(location)
-    @google_service.coordnates
+    @google_service.coordinates
   end
 
   def google_location_info
