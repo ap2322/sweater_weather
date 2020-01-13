@@ -44,18 +44,16 @@ describe 'Antipode weather lookup api' do
     expect(parsed_response[:attributes][:forecast]).to have_key :current_temperature
     expect(parsed_response[:attributes]).to have_key :search_location
   end
+
+  it 'returns error data if no place is found from google', :vcr do
+    city = 'Montevideo, Uruguay'
+    get "/api/v1/antipode?location=#{city}"
+
+    expect(response).to be_successful
+    parsed_response = JSON.parse(response.body, symbolize_names: true)
+    expect(parsed_response[:attributes][:location_name]).to eq "Sorry, no places found for coordinates 34.9011127,123.83546860000001"
+    expect(parsed_response[:attributes][:forecast]).to have_key :summary
+    expect(parsed_response[:attributes][:forecast]).to have_key :current_temperature
+    expect(parsed_response[:attributes]).to have_key :search_location
+  end
 end
-
-
-# { data: {
-#   {
-#     id: 1,
-#     type: 'antipode',
-#     attributes: {
-#       location_name: 'Antipode City Name',
-#       forecast: {
-#         summmary: 'mostly cloudy',
-#         current_temperature: 72,
-#       },
-#       search_location: 'Hong Kong',
-#     }
