@@ -21,7 +21,7 @@ describe GoogleGeoService do
 
     antipode_location = service.find_place(antipode_lat_long)
 
-    expect(antipode_location).to eq("Yavi Department, Jujuy, Argentina")
+    expect(antipode_location).to eq("RP69, Jujuy, Argentina")
 
   end
 end

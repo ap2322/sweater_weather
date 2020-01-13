@@ -22,7 +22,7 @@ class GoogleGeoService
       req.params['latlng'] = lat_long
     end
     json_resp = JSON.parse(resp.body, symbolize_names: true)
-    json_resp[:results][-3][:formatted_address]
+    json_resp[:results][0][:formatted_address]
   end
 
   private
