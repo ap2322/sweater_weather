@@ -3,7 +3,7 @@ require 'rails_helper'
 describe GoogleGeoService do
   it 'returns the latitude and longitude of a location', :vcr do
     service = GoogleGeoService.new('Denver, CO')
-    found_coordinates = service.coordnates
+    found_coordinates = service.coordinates
 
     expect(found_coordinates).to eq('39.7392358,-104.990251')
   end
