@@ -14,7 +14,8 @@ class Api::V1::UsersController < ApplicationController
 
   private
   def user_registration_info
-    JSON.parse(request.env['RAW_POST_DATA'], symbolize_names: true)
+    binding.pry
+    JSON.parse(params, symbolize_names: true)
   end
 
 end
