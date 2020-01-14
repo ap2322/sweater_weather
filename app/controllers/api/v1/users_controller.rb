@@ -13,9 +13,8 @@ class Api::V1::UsersController < ApplicationController
   end
 
   private
-  def user_registration_info
-    binding.pry
-    JSON.parse(params, symbolize_names: true)
+  def user_registration
+    params.require(:user).permit(:email, :password, :password_confirmation)
   end
 
 end
