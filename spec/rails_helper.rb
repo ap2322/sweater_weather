@@ -15,6 +15,7 @@ VCR.configure do |config|
   config.ignore_localhost = true
   config.cassette_library_dir = 'spec/cassettes'
   config.hook_into :webmock
+  config.default_cassette_options = {match_requests_on: [:method, :path]}
   config.configure_rspec_metadata!
   config.filter_sensitive_data("<GOOGLE_GEO_API_KEY>") { ENV['GOOGLE_GEO_API_KEY'] }
   config.filter_sensitive_data("<DARKSKY_API_KEY>") { ENV['DARKSKY_API_KEY'] }
