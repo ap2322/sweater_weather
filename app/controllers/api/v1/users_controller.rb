@@ -1,9 +1,9 @@
 class Api::V1::UsersController < ApplicationController
 
   def create
-    user = User.create(user_registration_info)
+    user = User.create(user_registration)
     if user.save
-      api_key = UserSerializer.new(user).serialized_json
+      api_key = { api_key: user.api_key }
       render json: api_key, status: 201
     else
       binding.pry
