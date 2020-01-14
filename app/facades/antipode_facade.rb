@@ -1,14 +1,16 @@
 class AntipodeFacade
   attr_reader :location_search,
               :antipode_location_name,
-              :antipode_forecast
+              :forecast,
+              :id
 
   def initialize(location_search)
+    @id = 1
     @location_search = location_search
     @search_coordinates = get_coordinates
     @antipode_coordinates = get_antipode_lat_long
     @antipode_location_name = get_antipode_location_name
-    @antipode_forecast = get_antipode_forecast
+    @forecast = get_antipode_forecast
   end
 
   def get_coordinates
@@ -21,13 +23,13 @@ class AntipodeFacade
   end
 
   def get_antipode_location_name
-    @google_service ||= GoogleGeoService.new(location_search)
     @google_service.find_place(antipode_coordinates)
   end
 
   def get_antipode_forecast
     darksky_service = DarkskyService.new(antipode_coordinates)
-    darksky_service.forecast
+    full_forecast = darksky_service.forecast
+    SummaryForecast.new(full_forecast)
   end
 
   private
