@@ -27,9 +27,9 @@ describe DarkskyService do
   it 'returns forecast information for night', :vcr do
     VCR.use_cassette('returns_forecast_information_for_night.yml', :match_requests_on => [:method, :host]) do
       service = DarkskyService.new('39.7392358,-104.990251')
-      evening_forecast = service.evening_forecast
-      expect(evening_forecast).to have_key :currently
-      expect(evening_forecast[:currently]).to have_key :summary
+      specific_forecast = service.specific_forecast
+      expect(specific_forecast).to have_key :currently
+      expect(specific_forecast[:currently]).to have_key :summary
     end
   end
 

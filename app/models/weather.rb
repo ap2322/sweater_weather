@@ -1,5 +1,5 @@
 class Weather
-
+  attr_reader :lat_long
   def initialize(location)
     @location = location
     @location_info = google_location_info
@@ -35,18 +35,8 @@ class Weather
     }
   end
 
-  def five_day_forecast
-    five_day = {
-      hourly_data: [],
-      daily_data: []
-    }
-    make_hourly(five_day)
-    make_daily(five_day)
-    five_day
-  end
-
   private
-  attr_reader :location_info, :location, :lat_long, :current_full_forecast, :evening
+  attr_reader :location_info, :location, :current_full_forecast, :evening
 
   def google_location_info
     @_google_service ||= GoogleGeoService.new(location)
@@ -65,7 +55,7 @@ class Weather
 
   def darksky_evening_forecast(lat_long)
     @_darksky_service ||= DarkskyService.new(lat_long)
-    evening_forecast = @_darksky_service.evening_forecast
+    evening_forecast = @_darksky_service.specific_forecast
   end
 
   def make_time(time)
@@ -87,30 +77,6 @@ class Weather
       return 'very high'
     elsif uv_index > 10
       return 'extreme'
-    end
-  end
-
-  def make_hourly(five_day)
-    next_hours = current_full_forecast[:hourly][:data][0..5]
-    next_hours.each do |hour_info|
-      five_day[:hourly_data].push({
-        time: Time.at(hour_info[:time]).strftime("%l"),
-        temperature: hour_info[:temperature]
-        })
-    end
-  end
-
-  def make_daily(five_day)
-    next_five_days = current_full_forecast[:daily][:data][1..5]
-    next_five_days.each do |daily_info|
-      five_day[:daily_data].push({
-        day: Time.at(daily_info[:time]).strftime("%A"),
-        icon: daily_info[:icon],
-        precip_probability: daily_info[:precipProbability],
-        precip_type: daily_info[:precipType],
-        temp_high: daily_info[:temperatureMax],
-        temp_low: daily_info[:temperatureMin],
-        })
     end
   end
 
