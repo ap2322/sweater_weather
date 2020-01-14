@@ -7,13 +7,12 @@ class ForecastFacade
     @forecast = Forecast.new(weather.lat_long)
   end
 
-  def forecast_as_json
-    all_details = {
+  def forecast_hash
+    {
       summary: weather.summary,
       details: weather.details,
       five_day_forecast: forecast.five_day_and_hourly,
     }
-    JSON.generate(all_details)
   end
 
   private

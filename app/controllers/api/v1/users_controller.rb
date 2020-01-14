@@ -1,20 +1,19 @@
 class Api::V1::UsersController < ApplicationController
 
   def create
-    user = User.create(user_registration_info)
+    user = User.new(user_registration)
     if user.save
-      api_key = UserSerializer.new(user).serialized_json
+      api_key = { api_key: user.api_key }
       render json: api_key, status: 201
     else
-      binding.pry
-      error = user.full_messages
-      render error, status: 406
+      error = { errors: user.errors.full_messages }
+      render json: error, status: 400
     end
   end
 
   private
-  def user_registration_info
-    JSON.parse(request.env['RAW_POST_DATA'], symbolize_names: true)
+  def user_registration
+    params.require(:user).permit(:email, :password, :password_confirmation)
   end
 
 end

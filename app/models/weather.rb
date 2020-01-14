@@ -39,13 +39,20 @@ class Weather
   attr_reader :location_info, :location, :current_full_forecast, :evening
 
   def google_location_info
-    @_google_service ||= GoogleGeoService.new(location)
-    @_google_service.city_state_country
+    google_service = GoogleGeoService.new(location)
+    @_geo_info ||= google_service.get_geographic_info
+    location_name_hash(@_geo_info)
+  end
+
+  def location_name_hash(json_info)
+    city = json_info[:results][0][:address_components][0][:long_name]
+    state = json_info[:results][0][:address_components][2][:short_name]
+    country = json_info[:results][0][:address_components][3][:long_name]
+    {location: "#{city}, #{state}", country: country}
   end
 
   def google_lat_long
-    @_google_service ||= GoogleGeoService.new(location)
-    @_google_service.coordinates
+    @_geo_info[:results][0][:geometry][:location].values.join(',')
   end
 
   def darksky_current_full_forecast(lat_long)
