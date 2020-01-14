@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   has_secure_password
-  validates_presence_of :email
+  validates_presence_of :email, :password_confirmation
   validates_uniqueness_of :email
 
   before_create do |user|
