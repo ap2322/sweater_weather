@@ -1,8 +1,11 @@
 require 'rails_helper'
 
 describe 'Road Trip API Endpoint', type: :request do
-  xit 'returns origin, destination, travel time, and arrival forecast with a successful request', :vcr do
-
+  it 'returns origin, destination, travel time, and arrival forecast with a successful request', :vcr do
+    WebMock.enable_net_connect!
+    VCR.eject_cassette
+    VCR.turn_off!(ignore_cassettes: true)
+    
     user = User.create(email: 'road@tripper.com', password: 'something', password_confirmation: 'something')
     body = {
               "origin": "Denver,CO",

@@ -22,9 +22,10 @@ describe DarkskyService do
     expect(forecast).to have_key :daily
   end
 
-  xit 'returns forecast information for night', :vcr do
+  it 'returns forecast information for night', :vcr do
     service = DarkskyService.new('39.7392358,-104.990251')
-    specific_forecast = service.specific_forecast
+    time = Time.at(1579150800).utc
+    specific_forecast = service.specific_forecast('39.7392358,-104.990251', time)
     expect(specific_forecast).to have_key :currently
     expect(specific_forecast[:currently]).to have_key :summary
   end
