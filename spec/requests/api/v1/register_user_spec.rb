@@ -10,7 +10,7 @@ RSpec.describe 'Register User API', :type => :request do
         "password_confirmation": "password",
       }
 
-      post '/api/v1/users', params: {user: body}
+      post '/api/v1/users', params: body
 
       api_key_response = JSON.parse(response.body)
 
@@ -26,7 +26,7 @@ RSpec.describe 'Register User API', :type => :request do
         "password": "password",
       }
 
-      post '/api/v1/users', params: {user: body}
+      post '/api/v1/users', params: body
 
       error_response = JSON.parse(response.body)
       expected_error = {"errors"=>["Password confirmation can't be blank"]}
@@ -38,7 +38,7 @@ RSpec.describe 'Register User API', :type => :request do
       new_body = {
         "email": "whatever@example.com",
       }
-      post '/api/v1/users', params: {user: new_body}
+      post '/api/v1/users', params: new_body
 
       error_responses = JSON.parse(response.body)
       expected_errors = {"errors"=>["Password can't be blank", "Password confirmation can't be blank"]}

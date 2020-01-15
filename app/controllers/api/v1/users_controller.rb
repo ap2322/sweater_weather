@@ -13,7 +13,7 @@ class Api::V1::UsersController < ApplicationController
 
   private
   def user_registration
-    params.require(:user).permit(:email, :password, :password_confirmation)
+    params.permit(:email, :password, :password_confirmation)
   end
 
 end
