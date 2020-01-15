@@ -1,3 +1,5 @@
+require 'tzinfo'
+
 class ForecastFacade
   attr_reader :location,
               :summary,
@@ -57,7 +59,15 @@ class ForecastFacade
   end
 
   def darksky_evening_forecast(lat_long)
-    @_darksky_service ||= DarkskyService.new(lat_long)
-    evening_forecast = @_darksky_service.specific_forecast
+    hours = 22
+    time = local_time(current_forecast[:currently][:time], current_forecast[:timezone])
+    evening_forecast = @_darksky_service.specific_forecast(lat_long, time, hours)
+    binding.pry
+  end
+
+  def local_time(forecast_time, forecast_timezone)
+    tz = TZInfo::Timezone.get(forecast_timezone)
+    machine_time = Time.at(forecast_time)
+    tz.utc_to_local(machine_time.utc)
   end
 end

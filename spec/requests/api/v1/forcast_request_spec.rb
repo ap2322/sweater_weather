@@ -46,4 +46,24 @@ describe "Forecast API" do
     expect(attributes[:forecast][:daily][:daily_data][0]).to have_key :temp_low
 
   end
+
+  it 'can search for a location in a different timezone', :vcr do
+    get '/api/v1/forecast?location=san jose,ca'
+    expect(response).to be_successful
+
+    sj_parsed_response = JSON.parse(response.body, symbolize_names: true)[:data][:attributes]
+    san_jose_time_string = sj_parsed_response[:summary][:time]
+    expect(san_jose_time_string).to be_a String
+
+    get '/api/v1/forecast?location=denver,co'
+    expect(response).to be_successful
+    denver_parsed_response = JSON.parse(response.body, symbolize_names: true)[:data][:attributes]
+    denver_time_string = denver_parsed_response[:summary][:time]
+
+    expect(san_jose_time_string).to_not eq denver_time_string
+    # expect(sj_parsed_response[:forecast][:hourly][:hourly_data][0][:time]).to_not eq(
+    #   denver_parsed_response[:forecast][:hourly][:hourly_data][0][:time]
+    # )
+
+  end
 end
