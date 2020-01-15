@@ -35,12 +35,4 @@ class RoadTripFacade
     Time.now + @_directions_info[:routes][0][:legs][0][:duration][:value]
   end
 
-
-
-  # expect(road_trip_info).to have_key :origin
-  # expect(road_trip_info).to have_key :destination
-  # expect(road_trip_info).to have_key :travel_time
-  # expect(road_trip_info).to have_key :arrival_forecast
-  # expect(road_trip_info).to have_key :temperature (part of arrival forecast)
-  # expect(road_trip_info).to have_key :summary (part of arrival forecast)
 end
