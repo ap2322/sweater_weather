@@ -3,9 +3,8 @@ class Api::V1::RoadTripController < ApplicationController
 
   def create
     road_trip = RoadTripFacade.new(road_trip_info)
-
-    # serialize info from RoadTripFacade
-    # render json and status code
+    road_trip_response = RoadTripSerializer.new(road_trip)
+    render json: road_trip_response
   end
 
   private
