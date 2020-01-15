@@ -1,10 +1,7 @@
 require 'rails_helper'
 
 describe 'Road Trip API Endpoint', type: :request do
-  xit 'returns origin, destination, travel time, and arrival forecast with a successful request', :vcr do
-    WebMock.enable_net_connect!
-    VCR.eject_cassette
-    VCR.turn_off!(ignore_cassettes: true)
+  it 'returns origin, destination, travel time, and arrival forecast with a successful request', :vcr do
 
     user = User.create(email: 'road@tripper.com', password: 'something', password_confirmation: 'something')
     body = {
@@ -17,12 +14,12 @@ describe 'Road Trip API Endpoint', type: :request do
     road_trip_info = JSON.parse(response.body, symbolize_names: true)
 
     expect(response.status).to eq 200
-    expect(road_trip_info).to have_key :origin
-    expect(road_trip_info).to have_key :destination
-    expect(road_trip_info).to have_key :travel_time
-    expect(road_trip_info).to have_key :arrival_forecast
-    expect(road_trip_info).to have_key :temperature
-    expect(road_trip_info).to have_key :summary
+    expect(road_trip_info[:data][:attributes]).to have_key :origin
+    expect(road_trip_info[:data][:attributes]).to have_key :destination
+    expect(road_trip_info[:data][:attributes]).to have_key :travel_time
+    expect(road_trip_info[:data][:attributes]).to have_key :arrival_forecast
+    expect(road_trip_info[:data][:attributes][:arrival_forecast]).to have_key :temperature
+    expect(road_trip_info[:data][:attributes][:arrival_forecast]).to have_key :summary
   end
 
   it 'prevents access with wrong or no token' do
