@@ -9,8 +9,8 @@ class DarkskyService
   end
 
   def specific_forecast(location = lat_long, time = Time.now, hours = 22)
-    evening_time = Time.new(time.year, time.month, time.day, hours).to_i.to_s
-    response = conn.get("#{location},#{evening_time}")
+    specific_time = Time.new(time.year, time.month, time.day, hours).to_i.to_s
+    response = conn.get("#{location},#{specific_time}")
     JSON.parse(response.body, symbolize_names: true)
   end
 

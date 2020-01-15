@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       get '/backgrounds', to: 'backgrounds#index'
       resources :users, only: [:create], defaults: { format: :json }
       post '/sessions', to: 'sessions#create'
+      post '/road_trip', to: 'road_trip#create'
     end
   end
 end
