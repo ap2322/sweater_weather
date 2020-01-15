@@ -11,7 +11,7 @@ class Api::V1::SessionsController < ApplicationController
 
   private
   def user_info
-    params.require(:user).permit(:email, :password)
+    params.permit(:email, :password)
   end
 
   def error_response

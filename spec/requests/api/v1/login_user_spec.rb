@@ -9,7 +9,7 @@ describe 'Login User API', type: :request do
               "email": "whatever@example.com",
               "password": "password"
             }
-    post '/api/v1/sessions', params: {user: req_body}
+    post '/api/v1/sessions', params: req_body
 
 
     api_key_response = JSON.parse(response.body)
@@ -27,7 +27,7 @@ describe 'Login User API', type: :request do
     req_body = {
               "email": "whatever@example.com",
             }
-    post '/api/v1/sessions', params: {user: req_body}
+    post '/api/v1/sessions', params: req_body
 
     error_response = JSON.parse(response.body)
     expected_error = {"error"=>"credentials are bad"}
