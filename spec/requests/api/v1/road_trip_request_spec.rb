@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Road Trip API Endpoint', type: :request do
-  it 'returns origin, destination, travel time, and arrival forecast with a successful request', :vcr do
+  xit 'returns origin, destination, travel time, and arrival forecast with a successful request', :vcr do
 
     user = User.create(email: 'road@tripper.com', password: 'something', password_confirmation: 'something')
     body = {
