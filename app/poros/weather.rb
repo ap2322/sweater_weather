@@ -2,17 +2,18 @@ class Weather
   attr_reader :lat_long,
               :summary,
               :details
-  def initialize(location)
+
+  def initialize(location, lat_long, google_location_info, current_forecast, evening_forecast)
     @location = location
-    @location_info = google_location_info
-    @lat_long = google_lat_long
-    @current_full_forecast = darksky_current_full_forecast(lat_long)
-    @evening = darksky_evening_forecast(lat_long)
-    @summary = make_summary
-    @details = make_details
+    # @location_info = google_location_info
+    @lat_long = lat_long
+    # @current_full_forecast = darksky_current_full_forecast(lat_long)
+    # @evening = darksky_evening_forecast(lat_long)
+    @summary = make_summary(current_forecast, google_location_info)
+    @details = make_details(current_forecast, evening_forecast)
   end
 
-  def make_summary
+  def make_summary(current_full_forecast, location_info)
     time = Time.at(current_full_forecast[:currently][:time])
     WeatherSummary.new(location_info, time, current_full_forecast)
     # {
@@ -28,8 +29,8 @@ class Weather
     # }
   end
 
-  def make_details
-    WeatherDetails.new(current_full_forecast, evening)
+  def make_details(current_full_forecast, evening_forecast)
+    WeatherDetails.new(current_full_forecast, evening_forecast)
     # {
     #   icon: current_full_forecast[:daily][:data][0][:icon],
     #   today_details: current_full_forecast[:daily][:data][0][:summary],
@@ -43,34 +44,34 @@ class Weather
   end
 
   private
-  attr_reader :location_info, :location, :current_full_forecast, :evening
+  attr_reader
 
-  def google_location_info
-    google_service = GoogleGeoService.new(location)
-    @_geo_info ||= google_service.get_geographic_info
-    location_name_hash(@_geo_info)
-  end
+  # def google_location_info
+  #   google_service = GoogleGeoService.new(location)
+  #   @_geo_info ||= google_service.get_geographic_info
+  #   location_name_hash(@_geo_info)
+  # end
 
-  def location_name_hash(json_info)
-    city = json_info[:results][0][:address_components][0][:long_name]
-    state = json_info[:results][0][:address_components][2][:short_name]
-    country = json_info[:results][0][:address_components][3][:long_name]
-    {location: "#{city}, #{state}", country: country}
-  end
+  # def location_name_hash(json_info)
+  #   city = json_info[:results][0][:address_components][0][:long_name]
+  #   state = json_info[:results][0][:address_components][2][:short_name]
+  #   country = json_info[:results][0][:address_components][3][:long_name]
+  #   {location: "#{city}, #{state}", country: country}
+  # end
 
-  def google_lat_long
-    @_geo_info[:results][0][:geometry][:location].values.join(',')
-  end
-
-  def darksky_current_full_forecast(lat_long)
-    @_darksky_service ||= DarkskyService.new(lat_long)
-    current_full_forecast = @_darksky_service.forecast
-  end
-
-  def darksky_evening_forecast(lat_long)
-    @_darksky_service ||= DarkskyService.new(lat_long)
-    evening_forecast = @_darksky_service.specific_forecast
-  end
+  # def google_lat_long
+  #   @_geo_info[:results][0][:geometry][:location].values.join(',')
+  # end
+  # 
+  # def darksky_current_full_forecast(lat_long)
+  #   @_darksky_service ||= DarkskyService.new(lat_long)
+  #   current_full_forecast = @_darksky_service.forecast
+  # end
+  #
+  # def darksky_evening_forecast(lat_long)
+  #   @_darksky_service ||= DarkskyService.new(lat_long)
+  #   evening_forecast = @_darksky_service.specific_forecast
+  # end
 
   # def make_time(time)
   #   time.strftime("%l:%M%p")
