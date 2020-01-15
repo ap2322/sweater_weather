@@ -62,7 +62,6 @@ class ForecastFacade
     hours = 22
     time = local_time(current_forecast[:currently][:time], current_forecast[:timezone])
     evening_forecast = @_darksky_service.specific_forecast(lat_long, time, hours)
-    binding.pry
   end
 
   def local_time(forecast_time, forecast_timezone)
