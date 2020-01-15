@@ -51,16 +51,19 @@ describe "Forecast API" do
     get '/api/v1/forecast?location=san jose,ca'
     expect(response).to be_successful
 
-    parsed_response = JSON.parse(response.body, symbolize_names: true)
-    san_jose_time_string = parsed_response[:data][:attributes][:summary][:time]
-
+    sj_parsed_response = JSON.parse(response.body, symbolize_names: true)[:data][:attributes]
+    san_jose_time_string = sj_parsed_response[:summary][:time]
     expect(san_jose_time_string).to be_a String
 
     get '/api/v1/forecast?location=denver,co'
     expect(response).to be_successful
-    parsed_response = JSON.parse(response.body, symbolize_names: true)
-    denver_time_string = parsed_response[:data][:attributes][:summary][:time]
+    denver_parsed_response = JSON.parse(response.body, symbolize_names: true)[:data][:attributes]
+    denver_time_string = denver_parsed_response[:summary][:time]
 
     expect(san_jose_time_string).to_not eq denver_time_string
+    # expect(sj_parsed_response[:forecast][:hourly][:hourly_data][0][:time]).to_not eq(
+    #   denver_parsed_response[:forecast][:hourly][:hourly_data][0][:time]
+    # )
+
   end
 end
